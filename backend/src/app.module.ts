@@ -12,13 +12,13 @@ import { RegisterModule } from './modules/auth/register/register.module';
       validate,
     }),
     DatabaseModule,
-    RegisterModule
+    RegisterModule,
     // UsersModule
   ],
   controllers: [],
   providers: [],
 })
-export class AppModule { }
+export class AppModule {}
 
 // export class AppModule implements NestModule {
 //   configure(consumer: MiddlewareConsumer) {

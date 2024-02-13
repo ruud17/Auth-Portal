@@ -67,6 +67,9 @@ export class Client extends User {
   @IsNotEmpty()
   avatar: string;
 
-  @OneToMany(() => Photo, (photo) => photo.client, { cascade: true, eager: true })
+  @OneToMany(() => Photo, (photo) => photo.client, {
+    cascade: true,
+    eager: true,
+  })
   photos: Photo[];
 }
