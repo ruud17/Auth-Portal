@@ -35,6 +35,26 @@ class EnvironmentVariables {
   @IsString()
   @MinLength(1)
   DB_NAME: string;
+
+  @IsDefined()
+  @IsString()
+  @MinLength(1)
+  AWS_ACCESS_KEY_ID: string;
+
+  @IsDefined()
+  @IsString()
+  @MinLength(1)
+  AWS_SECRET_ACCESS_KEY: string;
+
+  @IsDefined()
+  @IsString()
+  @MinLength(1)
+  AWS_REGION: string;
+
+  @IsDefined()
+  @IsString()
+  @MinLength(1)
+  AWS_S3_BUCKET_NAME: string;
 }
 
 export function validate(configuration: Record<string, unknown>) {
