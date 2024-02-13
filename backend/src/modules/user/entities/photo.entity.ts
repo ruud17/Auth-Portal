@@ -22,9 +22,9 @@ export class Photo {
   @IsUrl()
   url: string;
 
-  @ManyToOne(() => Client, (user) => user.photos)
+  @ManyToOne(() => Client, (client) => client.photos)
   @JoinColumn({ name: 'clientId' })
-  user: Client;
+  client: Client;
 
   @CreateDateColumn()
   createdAt: Date;

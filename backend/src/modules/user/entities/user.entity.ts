@@ -11,7 +11,6 @@ import {
 } from 'typeorm';
 import { Length, IsEmail, IsNotEmpty, Matches, IsUrl } from 'class-validator';
 import { Photo } from './photo.entity';
-import { DEFAULT_AVATAR_URL } from '../../../common/constants';
 
 @Entity()
 @TableInheritance({ column: { type: 'varchar', name: 'type' } })
@@ -68,14 +67,6 @@ export class Client extends User {
   @IsNotEmpty()
   avatar: string;
 
-  @OneToMany(() => Photo, (photo) => photo.user, { cascade: true, eager: true })
+  @OneToMany(() => Photo, (photo) => photo.client, { cascade: true, eager: true })
   photos: Photo[];
-
-  // Lifecycle hook to automatically set the avatar before inserting into the database
-  @BeforeInsert()
-  assignDefaultAvatar() {
-    if (!this.avatar) {
-      this.avatar = DEFAULT_AVATAR_URL;
-    }
-  }
 }

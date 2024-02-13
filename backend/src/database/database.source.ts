@@ -13,11 +13,19 @@ export const dataSourceOptions: DataSourceOptions = {
   username: configService.get('DB_USER'),
   password: configService.get('DB_PASSWORD'),
   database: configService.get('DB_NAME'),
-  entities: ['src/modules/**/*.entity.ts'],
-  //   migrationsTableName: 'migrations',
-  migrations: ['src/database/migrations/*.ts'],
-  // autoLoadEntities: true,
+  entities: [
+    process.env.NODE_ENV === 'development'
+      ? 'src/modules/**/entities/*.entity.ts'
+      : 'dist/modules/**/entities/*.entity.js',
+  ],
+  migrations: [
+    process.env.NODE_ENV === 'development'
+      ? 'src/database/migrations/*.ts'
+      : 'dist/database/migrations/*.js',
+  ],
   synchronize: false,
+  logging: true,
+  //   autoLoadEntities: true,
 };
 
 export default new DataSource(dataSourceOptions);
