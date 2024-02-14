@@ -55,6 +55,11 @@ class EnvironmentVariables {
   @IsString()
   @MinLength(1)
   AWS_S3_BUCKET_NAME: string;
+
+  @IsDefined()
+  @IsString()
+  @MinLength(5)
+  JWT_SECRET: string;
 }
 
 export function validate(configuration: Record<string, unknown>) {

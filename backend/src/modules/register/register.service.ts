@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Client, User } from 'modules/user/entities/user.entity';
-import { Photo } from 'modules/user/entities/photo.entity';
+import { Client, User } from 'modules/users/entities/user.entity';
+import { Photo } from 'modules/users/entities/photo.entity';
 import { PasswordHelper } from 'common/password.helper';
 import { AwsService } from 'common/services/aws.service';
 import { DEFAULT_AVATAR_URL } from 'common/constants/constants';
