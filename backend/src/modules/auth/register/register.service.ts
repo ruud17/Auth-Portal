@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { RegisterClientDto } from './dto/register-client.dto';
 import { Client, User } from 'modules/user/entities/user.entity';
-import { DEFAULT_AVATAR_URL } from 'common/constants';
 import { Photo } from 'modules/user/entities/photo.entity';
 import { PasswordHelper } from 'common/password.helper';
-import { AwsService } from 'common/aws.service';
+import { AwsService } from 'common/services/aws.service';
+import { DEFAULT_AVATAR_URL } from 'common/constants/constants';
+import { RegisterClientDto } from './dto/register-client.dto';
 
 @Injectable()
 export class RegisterService {
@@ -20,35 +20,33 @@ export class RegisterService {
         registerDto: RegisterClientDto,
         photosList: Array<Express.Multer.File>,
     ): Promise<Client> {
+        const hashedPassword = await PasswordHelper.hashPassword(registerDto.password);
+        const avatarUrl = registerDto.avatar || DEFAULT_AVATAR_URL;
 
-        if (!registerDto.avatar) {
-            registerDto.avatar = DEFAULT_AVATAR_URL;
-        }
         try {
-            const photos = await this.uploadPhotosToS3AndReturnEntities(photosList);
+            const photoEntities = await this.uploadPhotosToS3AndReturnEntities(photosList);
 
-            const newClient = this.userRepository.create(registerDto) as Client;
-            newClient.photos = photos;
-            newClient.password = await PasswordHelper.hashPassword(registerDto.password); // hash password
+            return await this.userRepository.manager.transaction(async entityManager => {
+                const newUserData = {
+                    ...registerDto,
+                    avatar: avatarUrl,
+                    password: hashedPassword,
+                    photos: photoEntities,
+                    type: 'Client',
+                };
+                const newUser = entityManager.create(User, newUserData) as Client;
+                return await entityManager.save(User, newUser);
+            });
 
-            return await this.userRepository.save(newClient);
         } catch (error) {
-            throw new Error(`Error while registering a new client: ${registerDto.firstName} - ${registerDto.lastName}. Error: ${error}`)
+            throw error;
         }
     }
 
-    private async uploadPhotosToS3AndReturnEntities(photosList: Array<Express.Multer.File>): Promise<Photo[]> {
-        const photoEntities: Photo[] = [];
-
-        for (const file of photosList) {
+    private async uploadPhotosToS3AndReturnEntities(photosList: Express.Multer.File[]): Promise<Photo[]> {
+        return Promise.all(photosList.map(async file => {
             const { fileName, url } = await this.awsService.uploadFileAndGetDetails(file);
-
-            const photo = new Photo();
-            photo.name = fileName;
-            photo.url = url;
-
-            photoEntities.push(photo);
-        }
-        return photoEntities;
+            return { name: fileName, url } as Photo;
+        }));
     }
 }
