@@ -1,13 +1,42 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background-color: #fafafa;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  width: 100%;
+  align-items: center;
+  height: 100vh;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.box {
+  border: 1px solid #dfdfdf;
+  background-color: #fff;
+}
+
+
+.userProfileContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+  /* Adjust based on your needs */
+  width: 80vw;
+  /* Adjust based on your needs */
+  margin: 0 auto;
+}
+
+.carousel .slide {
+  height: 400px;
+  /* Ensure this matches the fixed height of the images */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.userProfileContainer .carousel-root {
+  max-width: 40%;
+  /* Ensures carousel doesn't exceed container's width */
+  max-height: 100%;
+  /* Adjust carousel height as needed */
 }

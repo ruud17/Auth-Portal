@@ -20,7 +20,7 @@ import { JwtStrategy } from './jwt.strategy';
                         configService.getOrThrow<string>(
                             'ACCESS_TOKEN_VALIDITY_DURATION_IN_MIN',
                         ),
-                    ) || 30,
+                    ) || 3600,
                 },
             }),
             inject: [ConfigService],
