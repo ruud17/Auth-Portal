@@ -4,15 +4,15 @@ import { LoginDto } from './dto/login.dto';
 
 @Controller('api')
 export class AuthController {
-    constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService) {}
 
-    @HttpCode(HttpStatus.OK)
-    @Post('login')
-    async login(@Body() loginDto: LoginDto) {
-        try {
-            return this.authService.signIn(loginDto);
-        } catch (error) {
-            throw error;
-        }
+  @HttpCode(HttpStatus.OK)
+  @Post('login')
+  async login(@Body() loginDto: LoginDto) {
+    try {
+      return this.authService.signIn(loginDto);
+    } catch (error) {
+      throw error;
     }
+  }
 }
