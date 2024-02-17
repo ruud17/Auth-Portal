@@ -1,7 +1,7 @@
 export interface IPhoto {
-    id: number;
-    name: string;
-    url: string;
-    createdAt: Date;
-    updatedAt: Date;
+  id: number;
+  name: string;
+  url: string;
+  createdAt: Date;
+  updatedAt: Date;
 }

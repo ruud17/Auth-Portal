@@ -1,14 +1,15 @@
-import { IPhoto } from "./IPhoto";
+import { IPhoto } from './IPhoto';
 
 export interface IUser {
-    id: number;
-    firstName: string;
-    lastName: string;
-    fullName: string;
-    email: string;
-    role: string;
-    active: boolean;
-    createdAt: Date;
-    updatedAt: Date;
-    photos: IPhoto[]
+  id: number;
+  firstName: string;
+  lastName: string;
+  fullName: string;
+  email: string;
+  role: string;
+  active: boolean;
+  avatar: string;
+  photos: IPhoto[];
+  createdAt: Date;
+  updatedAt: Date;
 }

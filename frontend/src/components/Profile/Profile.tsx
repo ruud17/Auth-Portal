@@ -3,69 +3,55 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { setLoading, setUser, setError } from '../../redux/loggedUser';
 import { getUserInfo } from '../../services/apiService';
-import { Carousel } from 'react-responsive-carousel';
 import { Container } from 'react-bootstrap';
+import { LOGIN_ENDPOINT } from '../../services/apiEndpoints';
+import { useNavigate } from 'react-router-dom';
+import UserPhotosCarousel from './UserPhotosCarousel';
+import NavbarTop from '../Common/NavbarTop';
 
 const Profile: FC = () => {
-    const dispatch = useDispatch();
-    const { loggedUser, loading, error } = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { loggedUser, loading, error } = useSelector((state: RootState) => state.user);
 
-    const settings = {
-        dots: true,
-        // infinite: true,
-        speed: 500,
-        // slidesToShow: 1,
-        slidesToScroll: 1
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      try {
+        dispatch(setLoading(true));
+        const userInfo = await getUserInfo();
+        dispatch(setUser(userInfo));
+      } catch (err: any) {
+        dispatch(setError(err.response.data));
+        if (err.response.status === 401) {
+          navigate(LOGIN_ENDPOINT); // Unauthorized or token expired
+        }
+      }
     };
 
-    useEffect(() => {
-        const fetchUserProfile = async () => {
-            try {
-                // dispatch(setLoading(true));
-                const userInfo = await getUserInfo();
-                dispatch(setUser(userInfo));
-            } catch (err: unknown) {
-                dispatch(setError(err));
-            }
-        };
+    fetchUserProfile();
+  }, [dispatch]);
 
-        fetchUserProfile();
-    }, [dispatch]);
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
-    if (loading) {
-        return <div>Loading...</div>;
-    }
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
-    if (error) {
-        return <div>Error: {error}</div>;
-    }
-
-    return (
-        <Container className="userProfileContainer">
-            <h1>User Profile</h1>
-            {loggedUser && (
-                <Carousel
-                    showArrows={true} // Show left/right arrow controls
-                    autoPlay={true} // Enable auto play
-                    interval={3000} // Set auto play interval (3 seconds)
-                    infiniteLoop={true} // Enable infinite loop
-                    showThumbs={false} // Hide thumbnail images
-                    showStatus={false} // Hide the status of the current slide
-                    useKeyboardArrows={true} // Allow arrow key navigation
-                    // dynamicHeight={true} // Adjust the height dynamically
-                    swipeable={true} // Enable swipe actions for touch devices
-                    stopOnHover={true}
-                >
-                    {loggedUser.photos.map((photo, index) => (
-                        <div key={index}>
-                            <img src={photo.url} alt={`${photo.name}`} style={{ width: '100%' }} />
-                        </div>
-                    ))}
-                </Carousel>
-            )
-            }
-        </Container >
-    );
+  return (
+    <>
+      {loggedUser && (
+        <>
+          <NavbarTop loggedUserFullName={loggedUser?.fullName} avatar={loggedUser?.avatar} />
+          <Container className='userProfileContainer'>
+            <h1>Welcome {loggedUser?.fullName} </h1>
+            <UserPhotosCarousel photos={loggedUser!.photos} />
+          </Container>
+        </>
+      )}
+    </>
+  );
 };
 
 export default Profile;
