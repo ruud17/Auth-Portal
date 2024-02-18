@@ -1,12 +1,7 @@
+import { InternalServerErrorException } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
-import {
-  IsAlpha,
-  IsDefined,
-  IsNumberString,
-  IsString,
-  MinLength,
-  validateSync,
-} from 'class-validator';
+import { IsAlpha, IsDefined, IsNumberString, IsString, MinLength, validateSync } from 'class-validator';
+import { API_MESSAGES } from 'common/constants/constants';
 
 class EnvironmentVariables {
   @IsNumberString()
@@ -79,8 +74,7 @@ export function validate(configuration: Record<string, unknown>) {
     });
     console.log('\n ***** \n');
   }
-  if (errors.length)
-    throw new Error('Please provide the valid ENVs mentioned above');
+  if (errors.length) throw new InternalServerErrorException(API_MESSAGES.ENV_VAR_MISSING);
 
   return validatedConfig;
 }

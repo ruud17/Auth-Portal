@@ -1,5 +1,5 @@
 import * as bcrypt from 'bcrypt';
-import { PASSWORD_HASH_ROUND_TIMES } from './constants/constants';
+import { PASSWORD_HASH_ROUND_TIMES } from '../constants/constants';
 
 export class PasswordHelper {
   static async hashPassword(pw: string): Promise<string> {

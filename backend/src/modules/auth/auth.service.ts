@@ -1,7 +1,7 @@
 import { Injectable, BadRequestException, InternalServerErrorException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'modules/users/users.service';
-import { PasswordHelper } from 'common/password.helper';
+import { PasswordHelper } from 'common/utils/password.helper';
 import { API_MESSAGES } from 'common/constants/constants';
 import { User } from 'modules/users/entities/user.entity';
 import { LoginRequestDto } from './dto/login-request.dto';

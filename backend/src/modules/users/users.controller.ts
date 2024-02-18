@@ -1,4 +1,4 @@
-import { Controller, Get, UnauthorizedException, UseGuards, Request, UsePipes } from '@nestjs/common';
+import { Controller, Get, UseGuards, Request, UsePipes } from '@nestjs/common';
 import { JwtGuard } from 'common/guards/jwt.guard';
 import { UserValidationPipe } from 'common/pipes/validate-user-in-req.pipe';
 import { UserResponseDto } from './dto/user-response.dto';

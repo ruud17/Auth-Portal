@@ -5,7 +5,7 @@ import { plainToClass } from 'class-transformer';
 import { User } from 'modules/users/entities/user.entity';
 import { Photo } from 'modules/users/entities/photo.entity';
 import { UsersService } from 'modules/users/users.service';
-import { PasswordHelper } from 'common/password.helper';
+import { PasswordHelper } from 'common/utils/password.helper';
 import { AwsService } from 'common/services/aws.service';
 import { API_MESSAGES, DEFAULT_AVATAR_URL } from 'common/constants/constants';
 import { RegisterUserRequestDto } from './dto/register-user-request.dto';

@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { UploadFileResponse } from 'interfaces/upload-file-response.interface';
+import { UploadFileResponse } from 'common/interfaces/upload-file-response.interface';
 import * as AWS from 'aws-sdk';
+import { API_MESSAGES } from 'common/constants/constants';
 
 @Injectable()
 export class AwsService {
@@ -33,7 +34,7 @@ export class AwsService {
         url: uploadResult.Location,
       };
     } catch (error) {
-      throw new Error(`Failed to upload file: ${file.originalname}. Error: ${error}`);
+      throw new InternalServerErrorException(`${API_MESSAGES.AWS_S3_UPLOAD_ERROR}: ${file.originalname}`);
     }
   }
 }

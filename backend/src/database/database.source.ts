@@ -19,9 +19,7 @@ export const dataSourceOptions: DataSourceOptions = {
       : 'dist/modules/**/entities/*.entity.js',
   ],
   migrations: [
-    process.env.NODE_ENV === 'development'
-      ? 'src/database/migrations/*.ts'
-      : 'dist/database/migrations/*.js',
+    process.env.NODE_ENV === 'development' ? 'src/database/migrations/*.ts' : 'dist/database/migrations/*.js',
   ],
   synchronize: false,
   logging: true,

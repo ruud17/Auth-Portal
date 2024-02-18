@@ -12,11 +12,12 @@ export const API_MESSAGES = {
   EMAIL_ALREADY_USED: 'Email is already used',
   INVALID_CREDENTIALS: 'Invalid credentials',
   AWS_S3_IVALID_PARAM: 'InvalidParameter',
-  AWS_S3_UPLOAD_ERROR: 'Failed to upload images to S3',
+  AWS_S3_UPLOAD_ERROR: 'Failed to upload image to S3',
   FIND_USER_IN_DB_ERROR: 'An error occurred while finding the user',
   PASSWORD_HASHING_ERROR: 'Failed to hash password!',
   GENERATE_ACCESS_TOKEN_ERROR: 'Failed to generate access token. Please try again.',
   USER_NOT_FOUND: 'User not found',
+  ENV_VAR_MISSING: 'Please provide the valid ENVs listed above',
 };
 
 export const VALIDATION_MESSAGES = {
