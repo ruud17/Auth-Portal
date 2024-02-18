@@ -1,12 +1,12 @@
 import { BadRequestException, Module, ValidationPipe } from '@nestjs/common';
 import { APP_PIPE, APP_FILTER, HttpAdapterHost } from '@nestjs/core';
-import { UsersModule } from 'modules/users/users.module';
-import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from '@nestjs/config';
+import { AllExceptionsFilter } from 'common/filters/all-exception.filter';
+import { UsersModule } from 'modules/users/users.module';
+import { AuthModule } from 'modules/auth/auth.module';
+import { DatabaseModule } from './database/database.module';
 import { validate } from './config/config-validation';
 import { RegisterModule } from './modules/register/register.module';
-import { AuthModule } from 'modules/auth/auth.module';
-import { AllExceptionsFilter } from 'common/filters/all-exception.filter';
 
 @Module({
   imports: [

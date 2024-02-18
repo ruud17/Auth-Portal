@@ -1,10 +1,4 @@
-import {
-  ExceptionFilter,
-  Catch,
-  ArgumentsHost,
-  HttpException,
-  HttpStatus,
-} from '@nestjs/common';
+import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
 import { API_MESSAGES } from 'common/constants/constants';
 
@@ -21,9 +15,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
     if (exception instanceof HttpException) {
       status = exception.getStatus();
       const exceptionResponse = exception.getResponse();
-      message = exceptionResponse['message']
-        ? exceptionResponse['message']
-        : message;
+      message = exceptionResponse['message'] ? exceptionResponse['message'] : message;
     } else if (exception instanceof Error) {
       message = exception.message;
     }

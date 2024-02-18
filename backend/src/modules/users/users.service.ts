@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { plainToClass } from 'class-transformer';
 import { API_MESSAGES } from 'common/constants/constants';
 import { User } from './entities/user.entity';
 import { UserResponseDto } from './dto/user-response.dto';
-import { plainToClass } from 'class-transformer';
 
 @Injectable()
 export class UsersService {
