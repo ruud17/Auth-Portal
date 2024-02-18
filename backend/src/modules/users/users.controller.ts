@@ -4,7 +4,7 @@ import { UserValidationPipe } from 'common/pipes/validate-user-in-req.pipe';
 import { UserResponseDto } from './dto/user-response.dto';
 import { UsersService } from './users.service';
 
-@Controller('api/users')
+@Controller('users')
 export class UsersController {
   constructor(private readonly userService: UsersService) {}
 

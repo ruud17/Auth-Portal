@@ -6,7 +6,7 @@ import { RegisterService } from './register.service';
 import { RegisterUserResponseDto } from './dto/register-user-response.dto';
 import { RegisterUserRequestDto } from './dto/register-user-request.dto';
 
-@Controller('api/register')
+@Controller('register')
 export class RegisterController {
   constructor(private readonly registerService: RegisterService) {}
 
