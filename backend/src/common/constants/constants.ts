@@ -5,6 +5,9 @@ export const passwordRegEx = /^(?=.*\d)[A-Za-z\d@$!%*?&]{6,50}$/;
 export const MIN_PHOTOS_TO_UPLOAD_WHEN_REGISTERING_USER = 4;
 export const PASSWORD_HASH_ROUND_TIMES = 10;
 
+export const ENV_DEVELOPMENT = 'development';
+export const ENV_PRODUCTION = 'production';
+
 export const API_MESSAGES = {
   USER_SUCCESSFULLY_REGISTERED: 'Registration successful',
   PHOTOS_MINIMUM_REQUIRED: 'At least 4 photos should be added!',

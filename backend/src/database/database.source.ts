@@ -1,6 +1,7 @@
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { ConfigService } from '@nestjs/config';
 import { config } from 'dotenv';
+import { ENV_DEVELOPMENT } from 'common/constants/constants';
 
 config();
 
@@ -14,16 +15,17 @@ export const dataSourceOptions: DataSourceOptions = {
   password: configService.get('DB_PASSWORD'),
   database: configService.get('DB_NAME'),
   entities: [
-    process.env.NODE_ENV === 'development'
+    configService.get<string>('NODE_ENV') === ENV_DEVELOPMENT
       ? 'src/modules/**/entities/*.entity.ts'
       : 'dist/modules/**/entities/*.entity.js',
   ],
   migrations: [
-    process.env.NODE_ENV === 'development' ? 'src/database/migrations/*.ts' : 'dist/database/migrations/*.js',
+    configService.get<string>('NODE_ENV') === ENV_DEVELOPMENT
+      ? 'src/database/migrations/*.ts'
+      : 'dist/database/migrations/*.js',
   ],
   synchronize: false,
   logging: true,
-  //   autoLoadEntities: true,
 };
 
 export default new DataSource(dataSourceOptions);
