@@ -1,12 +1,8 @@
-import {
-  Controller,
-  Get,
-  UnauthorizedException,
-  UseGuards,
-  Request,
-} from '@nestjs/common';
-import { UsersService } from './users.service';
+import { Controller, Get, UnauthorizedException, UseGuards, Request, UsePipes } from '@nestjs/common';
 import { JwtGuard } from 'common/guards/jwt.guard';
+import { UserValidationPipe } from 'common/pipes/validate-user-in-req.pipe';
+import { UserResponseDto } from './dto/user-response.dto';
+import { UsersService } from './users.service';
 
 @Controller('api/users')
 export class UsersController {
@@ -14,10 +10,12 @@ export class UsersController {
 
   @UseGuards(JwtGuard)
   @Get('me')
-  async getMe(@Request() req) {
-    if (!req.user) {
-      throw new UnauthorizedException();
+  @UsePipes(UserValidationPipe)
+  async getMe(@Request() req): Promise<UserResponseDto> {
+    try {
+      return await this.userService.getUserInfo(req.user.id);
+    } catch (error) {
+      throw error;
     }
-    return await this.userService.getUserInfo(req.user.id);
   }
 }

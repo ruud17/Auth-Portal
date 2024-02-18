@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  InternalServerErrorException,
-} from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { plainToClass } from 'class-transformer';
@@ -35,22 +31,19 @@ export class RegisterService {
       await this.verifyIfEmailIsUsed(email);
       const hashedPassword = await this.hashPassword(password);
 
-      const photoEntities =
-        await this.uploadPhotosToS3AndReturnEntities(photosList);
+      const photoEntities = await this.uploadPhotosToS3AndReturnEntities(photosList);
 
-      const createdUser = await this.userRepository.manager.transaction(
-        async (entityManager) => {
-          const newUserData = {
-            ...registerDto,
-            avatar: avatarUrl,
-            password: hashedPassword,
-            photos: photoEntities,
-          };
-          const userModel = entityManager.create(User, newUserData);
-          await entityManager.save(User, userModel);
-          return userModel;
-        },
-      );
+      const createdUser = await this.userRepository.manager.transaction(async (entityManager) => {
+        const newUserData = {
+          ...registerDto,
+          avatar: avatarUrl,
+          password: hashedPassword,
+          photos: photoEntities,
+        };
+        const userModel = entityManager.create(User, newUserData);
+        await entityManager.save(User, userModel);
+        return userModel;
+      });
 
       const responseDto = plainToClass(RegisterUserDto, createdUser);
 
@@ -60,14 +53,11 @@ export class RegisterService {
     }
   }
 
-  private async uploadPhotosToS3AndReturnEntities(
-    photosList: Express.Multer.File[],
-  ): Promise<Photo[]> {
+  private async uploadPhotosToS3AndReturnEntities(photosList: Express.Multer.File[]): Promise<Photo[]> {
     try {
       return Promise.all(
         photosList.map(async (file) => {
-          const { fileName, url } =
-            await this.awsService.uploadFileAndGetDetails(file);
+          const { fileName, url } = await this.awsService.uploadFileAndGetDetails(file);
           return { name: fileName, url } as Photo;
         }),
       );
@@ -75,9 +65,7 @@ export class RegisterService {
       if (error.code === API_MESSAGES.AWS_S3_IVALID_PARAM) {
         throw new BadRequestException();
       } else {
-        throw new InternalServerErrorException(
-          API_MESSAGES.AWS_S3_UPLOAD_ERROR,
-        );
+        throw new InternalServerErrorException(API_MESSAGES.AWS_S3_UPLOAD_ERROR);
       }
     }
   }
@@ -91,9 +79,7 @@ export class RegisterService {
     try {
       return await PasswordHelper.hashPassword(pw);
     } catch (error) {
-      throw new InternalServerErrorException(
-        API_MESSAGES.PASSWORD_HASHING_ERROR,
-      );
+      throw new InternalServerErrorException(API_MESSAGES.PASSWORD_HASHING_ERROR);
     }
   }
 }

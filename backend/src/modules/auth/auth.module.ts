@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-import { AuthService } from './auth.service';
 import { UsersModule } from 'modules/users/users.module';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { JwtStrategy } from './jwt.strategy';
 
@@ -16,12 +16,7 @@ import { JwtStrategy } from './jwt.strategy';
       useFactory: async (configService: ConfigService) => ({
         secret: configService.get<string>('JWT_SECRET'),
         signOptions: {
-          expiresIn:
-            parseInt(
-              configService.getOrThrow<string>(
-                'ACCESS_TOKEN_VALIDITY_DURATION_IN_MIN',
-              ),
-            ) || 3600,
+          expiresIn: parseInt(configService.getOrThrow<string>('ACCESS_TOKEN_VALIDITY_DURATION_IN_MIN')) || 3600,
         },
       }),
       inject: [ConfigService],

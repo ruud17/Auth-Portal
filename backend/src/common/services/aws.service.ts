@@ -15,9 +15,7 @@ export class AwsService {
     });
   }
 
-  async uploadFileAndGetDetails(
-    file: Express.Multer.File,
-  ): Promise<UploadFileResponse> {
+  async uploadFileAndGetDetails(file: Express.Multer.File): Promise<UploadFileResponse> {
     const fileName = `${file.originalname}_${Date.now()}`;
 
     try {
@@ -35,9 +33,7 @@ export class AwsService {
         url: uploadResult.Location,
       };
     } catch (error) {
-      throw new Error(
-        `Failed to upload file: ${file.originalname}. Error: ${error}`,
-      );
+      throw new Error(`Failed to upload file: ${file.originalname}. Error: ${error}`);
     }
   }
 }

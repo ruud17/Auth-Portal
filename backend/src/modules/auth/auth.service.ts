@@ -1,10 +1,11 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable, BadRequestException, InternalServerErrorException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'modules/users/users.service';
 import { PasswordHelper } from 'common/password.helper';
-import { LoginRequestDto } from './dto/login-request.dto';
 import { API_MESSAGES } from 'common/constants/constants';
 import { User } from 'modules/users/entities/user.entity';
+import { LoginRequestDto } from './dto/login-request.dto';
+import { LoginResponseDto } from './dto/login-response.dto';
 
 @Injectable()
 export class AuthService {
@@ -13,23 +14,16 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async signIn(loginDto: LoginRequestDto): Promise<any> {
+  async signIn(loginDto: LoginRequestDto): Promise<LoginResponseDto> {
     const { email, password } = loginDto;
+    try {
+      const user = await this.findUserByEmail(email);
+      await this.validateUserPassword(password, user.password);
 
-    const user = await this.findUserByEmail(email);
-
-    const passwordIsValid = await PasswordHelper.validatePassword(
-      password,
-      user.password,
-    );
-
-    if (passwordIsValid) {
-      const payload = { sub: user.id, email: user.email };
-      return {
-        access_token: await this.jwtService.signAsync(payload),
-      };
+      return await this.issueJwtToken(user.id, user.email);
+    } catch (error) {
+      throw error;
     }
-    throw new BadRequestException(API_MESSAGES.INVALID_CREDENTIALS);
   }
 
   private async findUserByEmail(email: string): Promise<User> {
@@ -40,11 +34,19 @@ export class AuthService {
     return user;
   }
 
-  // private async issueJwtToken(userId: number, email: string): Promise<string> {
-  //   const payload = { sub: userId, email: email };
+  private async validateUserPassword(pwFromReq: string, hashedPw: string): Promise<void> {
+    const passwordIsValid = await PasswordHelper.validatePassword(pwFromReq, hashedPw);
+    if (!passwordIsValid) throw new BadRequestException(API_MESSAGES.INVALID_CREDENTIALS);
+  }
 
-  //   return {
-  //     access_token: await this.jwtService.signAsync(payload),
-  //   };
-  // }
+  private async issueJwtToken(userId: number, email: string): Promise<LoginResponseDto> {
+    const payload = { id: userId, email: email };
+
+    try {
+      const access_token = await this.jwtService.signAsync(payload);
+      return { access_token };
+    } catch (error) {
+      throw new InternalServerErrorException(API_MESSAGES.GENERATE_ACCESS_TOKEN_ERROR);
+    }
+  }
 }

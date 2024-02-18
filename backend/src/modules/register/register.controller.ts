@@ -1,11 +1,4 @@
-import {
-  Controller,
-  Post,
-  Body,
-  UseInterceptors,
-  UploadedFiles,
-  UsePipes,
-} from '@nestjs/common';
+import { Controller, Post, Body, UseInterceptors, UploadedFiles, UsePipes } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { ValidatePhotosPipe } from 'common/pipes/validate-photos.pipe';
 import { API_MESSAGES } from 'common/constants/constants';
@@ -25,10 +18,7 @@ export class RegisterController {
     @UploadedFiles() photos: Array<Express.Multer.File>,
   ): Promise<RegisterUserResponseDto> {
     try {
-      const createdUser = await this.registerService.addClient(
-        registerUserDto,
-        photos,
-      );
+      const createdUser = await this.registerService.addClient(registerUserDto, photos);
 
       return {
         message: API_MESSAGES.USER_SUCCESSFULLY_REGISTERED,
