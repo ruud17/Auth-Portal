@@ -10,7 +10,8 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 import { ValidatePhotosPipe } from 'common/pipes/validate-photos.pipe';
 import { API_MESSAGES } from 'common/constants/constants';
 import { RegisterService } from './register.service';
-import { RegisterClientRequestDto } from './dto/register-client-request.dto';
+import { RegisterUserResponseDto } from './dto/register-user-response.dto';
+import { RegisterUserRequestDto } from './dto/register-user-request.dto';
 
 @Controller('api/register')
 export class RegisterController {
@@ -20,12 +21,12 @@ export class RegisterController {
   @UseInterceptors(FilesInterceptor('photos'))
   @UsePipes(new ValidatePhotosPipe())
   async register(
-    @Body() registerClientDto: RegisterClientRequestDto,
+    @Body() registerUserDto: RegisterUserRequestDto,
     @UploadedFiles() photos: Array<Express.Multer.File>,
-  ) {
+  ): Promise<RegisterUserResponseDto> {
     try {
       const createdUser = await this.registerService.addClient(
-        registerClientDto,
+        registerUserDto,
         photos,
       );
 
