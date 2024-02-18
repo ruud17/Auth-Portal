@@ -24,7 +24,7 @@ import * as winston from 'winston';
               ]
             : [
                 // TO DO: adjust to Production setup using AWS CloudWatch
-                // here is sample how to setup AWS CloudWatch
+                // here is sample how to setup AWS CloudWatch (install package before configuring)
                 // new WinstonCloudWatch({
                 //   logGroupName: configService.get<string>('CLOUDWATCH_LOG_GROUP_NAME'),
                 //   logStreamName: configService.get<string>('CLOUDWATCH_LOG_STREAM_NAME'),
