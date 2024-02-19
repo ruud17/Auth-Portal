@@ -31,6 +31,9 @@ const loginSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(loginThunk.fulfilled, (state) => {
+      state.error = null;
+    });
     builder.addCase(loginThunk.rejected, (state, action: PayloadAction<string | undefined>) => {
       state.error = action.payload || UNKNOWN_ERROR;
     });

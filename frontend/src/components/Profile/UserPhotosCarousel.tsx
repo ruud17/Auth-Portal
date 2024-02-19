@@ -13,13 +13,12 @@ const UserPhotosCarousel: FC<UserPhotosCarouselProps> = ({ photos }) => {
         <Carousel
           showArrows={true}
           autoPlay={true}
-          interval={3000}
+          interval={4000}
           infiniteLoop={true}
-          showThumbs={false}
-          showStatus={false}
           useKeyboardArrows={true}
           swipeable={true}
           stopOnHover={true}
+          className='carousel-container'
         >
           {photos.map((photo, index) => (
             <div key={index}>

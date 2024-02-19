@@ -1,10 +1,22 @@
-// Colors
-$primary-color: #3498db;
-$background-color: #f8f9fa;
-$text-color: #333;
-$error-color: #dc3545;
-$hr-grey: #8e8e8e;
-$font-family: 'Roboto', sans-serif;
+$primary-color: #007bff;
+$dark: #343a40; 
+$light: #f8f9fa; 
+$white: #fff;
+$grey: #bdbaba;
+$shadow-color: rgba(0, 0, 0, 0.1);
+$color-start: #b5c6ee; // Start color
+$color-end: #ffffff; // End color
+
+// Typography
+$font-family-base: 'Roboto', sans-serif;
+$font-size-base: 1rem;
+$font-size-lg: 1.25rem;
+$font-size-xl: 1.75rem;
 
 // Spacing
-$form-spacing: 1.5rem;
+$spacing-base: 1rem;
+$spacing-lg: 1.5rem;
+$spacing-xl: 3rem;
+
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;

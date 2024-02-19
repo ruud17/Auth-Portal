@@ -1,0 +1,57 @@
+@import '../../styles/variables';
+
+.navbar-custom {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 1030;
+  box-shadow: 0 2px 4px $shadow-color;
+  
+
+  .user-info {
+    display: flex;
+    align-items: center;
+    .user-name {
+      margin-right: $spacing-base;
+    }
+    .user-avatar {
+      width: 40px !important;
+      margin-left: 10px !important;
+    }
+  }
+}
+
+.welcome-message {
+  text-align: center;
+  font-size: $font-size-xl;
+  color: $dark;
+  margin-bottom: $spacing-xl;
+  margin-top: 200px;
+}
+
+.carousel-container {
+  width: 500px;
+  height: 400px;
+  margin: auto;
+  
+  @media (max-width: $breakpoint-md) {
+    max-width: 90%;
+  }
+  
+  @media (max-width: $breakpoint-lg) {
+    max-width: 95%;
+  }
+  
+  .carousel {
+    .slide {
+      background: $white;
+      text-align: center;
+    }
+
+    .thumbs-wrapper{
+      display: flex;
+      justify-content: center;
+    }
+  }
+}

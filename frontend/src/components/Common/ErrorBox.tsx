@@ -17,7 +17,7 @@ const ErrorBox: FC<ErrorBoxProps> = ({ errorMsg }) => {
   );
   return (
     <Container>
-      <Alert variant='danger' className='mt-4 small pb-0'>
+      <Alert variant='danger' className='mt-4 small'>
         {formattedErrorMsg}
       </Alert>
     </Container>

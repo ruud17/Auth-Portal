@@ -30,13 +30,13 @@ const Login: FC = () => {
 
   return (
     <Container className='form-container'>
-      <Card className='narrow-card p-4 shadow'>
+      <Card className='narrow-card p-5 shadow'>
         <Card.Body>
           <h2 className='text-center mb-4'>Sign in</h2>
           <hr className='my-4 hr-grey' />
 
           <Form onSubmit={handleSubmit(onSubmit)}>
-            <Row>
+            <Row className='mb-3'>
               <Form.Group controlId='formEmail'>
                 <Form.Label>Email</Form.Label>
                 <Controller
@@ -68,7 +68,7 @@ const Login: FC = () => {
 
             <Row className='mb-3'>{loginError && <ErrorBox errorMsg={loginError} />}</Row>
 
-            <Row>
+            <Row className='mt-5'>
               <Button variant='primary' type='submit' className='w-100'>
                 Sign in
               </Button>

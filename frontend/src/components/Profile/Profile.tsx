@@ -8,6 +8,7 @@ import ErrorBox from 'components/Common/ErrorBox';
 import { UNAUTHORIZED_ERROR_CODE } from 'constants/constants';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { getUserProfleThunk } from '../../redux/slices/userSlice';
+import { removeToken } from 'utils/localStorageHelper';
 
 const Profile: FC = () => {
   const navigate = useNavigate();
@@ -27,6 +28,11 @@ const Profile: FC = () => {
     });
   }, [dispatch, navigate]);
 
+  const signOut = () => {
+    removeToken();
+    navigate(LOGIN_ENDPOINT);
+  };
+
   return (
     <div>
       {loading ? (
@@ -36,36 +42,19 @@ const Profile: FC = () => {
       ) : (
         <>
           {data ? (
-            <div>
-              {/* <NavbarTop loggedUserFullName={data.fullName} avatar={data.avatar} /> */}
+            <>
+              <NavbarTop userFullName={data?.fullName} avatar={data.avatar} signOut={signOut} />
 
-              <Navbar bg='light' expand='lg' className='justify-content-between'>
-                <Container>
-                  <Navbar.Brand href='#home'>Your Brand</Navbar.Brand>
-                  <Navbar.Toggle aria-controls='basic-navbar-nav' />
-                  <Navbar.Collapse id='basic-navbar-nav'>
-                    <Nav className='ml-auto'>
-                      <NavDropdown title={data?.fullName} id='basic-nav-dropdown'>
-                        <NavDropdown.Item href='#action/3.4'>Sign out</NavDropdown.Item>
-                      </NavDropdown>
-                      <Navbar.Text>
-                        Signed in as: <a href='#login'>{data?.fullName}</a>
-                      </Navbar.Text>
-                      {data?.avatar && (
-                        <Image src={data.avatar} roundedCircle={true} style={{ width: '40px', marginLeft: '10px' }} />
-                      )}
-                    </Nav>
-                  </Navbar.Collapse>
-                </Container>
-              </Navbar>
+              <Container className='text-center welcome-message'>
+                <h2>WELCOME {data?.fullName}</h2>
+              </Container>
 
-              <Container className='text-center mt-4'>
-                <h1>Welcome {data?.fullName} </h1>
+              <Container className='carousel-container'>
                 <UserPhotosCarousel photos={data!.photos} />
               </Container>
-            </div>
+            </>
           ) : (
-            <div>No data available.</div>
+            <Container>No data available.</Container>
           )}
         </>
       )}

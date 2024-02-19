@@ -1,24 +1,23 @@
 import { FC } from 'react';
-import { Container, Navbar } from 'react-bootstrap';
+import { Container, Nav, NavDropdown, Navbar, Image } from 'react-bootstrap';
 
 interface NavbarTopProps {
-  loggedUserFullName: string | undefined;
+  userFullName: string | undefined;
   avatar: string | undefined;
+  signOut: () => void;
 }
 
-const NavbarTop: FC<NavbarTopProps> = ({ loggedUserFullName, avatar }) => {
+const NavbarTop: FC<NavbarTopProps> = ({ userFullName, avatar, signOut }) => {
   return (
-    <Navbar className='bg-body-tertiary' fixed='top' bg='dark' data-bs-theme='dark'>
-      <Container>
-        <Navbar.Toggle />
-        <Navbar.Collapse className='justify-content-end'>
-          <Navbar.Text>
-            Signed in as:
-            <img src={avatar} alt='Bootstrap' width='30' height='24' />
-            {loggedUserFullName}
-          </Navbar.Text>
-          <Navbar.Text className='text-align-right'>Logout</Navbar.Text>
-        </Navbar.Collapse>
+    <Navbar expand='lg' className='navbar-custom'>
+      <Container fluid className='justify-content-right'>
+        <Navbar.Brand href='/'></Navbar.Brand>
+        <Nav className='user-info'>
+          <NavDropdown title={userFullName} id='basic-nav-dropdown'>
+            <NavDropdown.Item onClick={signOut}>Sign out</NavDropdown.Item>
+          </NavDropdown>{' '}
+          {avatar && <Image src={avatar} roundedCircle className='user-avatar' />}
+        </Nav>
       </Container>
     </Navbar>
   );

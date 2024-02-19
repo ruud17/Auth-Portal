@@ -54,13 +54,13 @@ const Register: FC = () => {
     if (registerUserThunk.fulfilled.match(actionResult)) {
       navigate(LOGIN_ENDPOINT);
       reset(); // Reset form fields
-      setUploadedFiles([]); // Also reset the uploadedFiles state
+      setUploadedFiles([]); // Reset the uploadedFiles state
     }
   };
 
   return (
     <Container className='form-container'>
-      <Card className='narrow-card p-4 shadow'>
+      <Card className='narrow-card p-5 shadow'>
         <Card.Body>
           <h2 className='text-center mb-4'>Create an account</h2>
           <hr className='my-4 hr-grey' />
@@ -73,13 +73,13 @@ const Register: FC = () => {
                   <Controller
                     name='firstName'
                     control={control}
-                    // rules={{ required: true, minLength: 2, maxLength: 25 }}
+                    rules={{ required: true, minLength: 2, maxLength: 25 }}
                     render={({ field }) => <Form.Control type='text' isInvalid={!!errors.firstName} {...field} />}
                   />
                   <Form.Control.Feedback type='invalid'>
-                    {/* {errors.firstName?.type === 'required' && 'First name is required'}
+                    {errors.firstName?.type === 'required' && 'First name is required'}
                     {errors.firstName?.type === 'minLength' && 'First name must be at least 2 characters'}
-                    {errors.firstName?.type === 'maxLength' && 'First name must be less than 25 characters'} */}
+                    {errors.firstName?.type === 'maxLength' && 'First name must be less than 25 characters'}
                   </Form.Control.Feedback>
                 </Form.Group>
               </Col>
