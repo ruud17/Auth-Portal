@@ -1,7 +1,6 @@
 import { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
-import { setLoading, setUser, setError } from '../../redux/loggedUser';
 import { getUserInfo } from '../../services/apiService';
 import { Container } from 'react-bootstrap';
 import { LOGIN_ENDPOINT } from '../../services/apiEndpoints';
@@ -12,36 +11,34 @@ import NavbarTop from '../Common/NavbarTop';
 const Profile: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loggedUser, loading, error } = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        dispatch(setLoading(true));
-        const userInfo = await getUserInfo();
-        dispatch(setUser(userInfo));
-      } catch (err: any) {
-        dispatch(setError(err.response.data));
-        if (err.response.status === 401) {
-          navigate(LOGIN_ENDPOINT); // Unauthorized or token expired
-        }
-      }
-    };
-
-    fetchUserProfile();
+    // const fetchUserProfile = async () => {
+    //   try {
+    //     dispatch(setLoading(true));
+    //     const userInfo = await getUserInfo();
+    //     dispatch(setUser(userInfo));
+    //   } catch (err: any) {
+    //     dispatch(setError(err.response.data));
+    //     if (err.response.status === 401) {
+    //       navigate(LOGIN_ENDPOINT); // Unauthorized or token expired
+    //     }
+    //   }
+    // };
+    // fetchUserProfile();
   }, [dispatch]);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  // if (loading) {
+  //   return <div>Loading...</div>;
+  // }
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+  // if (error) {
+  //   return <div>Error: {error}</div>;
+  // }
 
   return (
     <>
-      {loggedUser && (
+      {/* {loggedUser && (
         <>
           <NavbarTop loggedUserFullName={loggedUser?.fullName} avatar={loggedUser?.avatar} />
           <Container className='userProfileContainer'>
@@ -49,7 +46,7 @@ const Profile: FC = () => {
             <UserPhotosCarousel photos={loggedUser!.photos} />
           </Container>
         </>
-      )}
+      )} */}
     </>
   );
 };

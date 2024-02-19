@@ -12,7 +12,7 @@ if (!API_BASE_URL) {
 }
 
 const apiService: AxiosInstance = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: API_BASE_URL
 });
 
 const EXCLUDED_ENDPOINTS = [REGISTER_ENDPOINT, LOGIN_ENDPOINT];
@@ -39,7 +39,7 @@ export const registerNewUser = async (userRegisterData: IRegistrationFields): Pr
     Object.entries(userRegisterData).forEach(([key, value]) => {
       if (key !== 'photos') {
         // Exclude the photos key for now
-        formData.append(key, value.toString()); // Convert all values to string
+        formData.append(key, value?.toString()); // Convert all values to string
       }
     });
 
@@ -53,8 +53,8 @@ export const registerNewUser = async (userRegisterData: IRegistrationFields): Pr
     // API call with formData
     const response: AxiosResponse<void> = await apiService.post(REGISTER_ENDPOINT, formData, {
       headers: {
-        'Content-Type': undefined, // This instructs Axios to automatically set the correct Content-Type
-      },
+        'Content-Type': undefined // This instructs Axios to automatically set the correct Content-Type
+      }
     });
   } catch (error: unknown) {
     throw error;
@@ -69,7 +69,6 @@ export const login = async (loginData: ILoginFields): Promise<void> => {
   } catch (error) {
     console.log(error);
     throw error;
-    // TO DO: Handle error
   }
 };
 
@@ -78,9 +77,7 @@ export const getUserInfo = async (): Promise<IUser> => {
     const response: AxiosResponse<IUser> = await apiService.get(PROFILE_ENDPOINT);
     return response.data;
   } catch (error) {
-    console.log(error);
     throw error;
-    // TO DO: Handle error
   }
 };
 

@@ -1,16 +1,18 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { ILoginFields } from '../../interfaces/ILoginFields';
 import { Container, Row, Col, Button, Form } from 'react-bootstrap';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../../services/apiService';
+import ErrorBox from '../Common/ErrorBox';
 
 const Login: FC = () => {
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors }
   } = useForm<ILoginFields>();
+  const [loginErrorMsg, setLoginErrorMsg] = useState<boolean>(); // State to track uploaded files
 
   const navigate = useNavigate();
 
