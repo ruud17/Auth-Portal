@@ -3,9 +3,10 @@ import { ILoginFields } from '../../interfaces/ILoginFields';
 import { Container, Row, Button, Form, Card } from 'react-bootstrap';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { loginThunk } from '../../redux/slices/loginSlice';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { loginThunk } from '../../store/slices/loginSlice';
 import ErrorBox from '../Common/ErrorBox';
+import { ROUTE } from 'constants/constants';
 
 const Login: FC = () => {
   const {
@@ -23,7 +24,7 @@ const Login: FC = () => {
     const actionResult = await dispatch(loginThunk(data));
 
     if (loginThunk.fulfilled.match(actionResult)) {
-      navigate('/profile');
+      navigate(ROUTE.PROFILE);
       reset(); // Reset form fields
     }
   };

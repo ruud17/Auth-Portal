@@ -3,11 +3,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Container, Button, Form, Row, Col, Card } from 'react-bootstrap';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { IRegistrationFields } from 'interfaces/IRegistrationFields';
-import { LOGIN_ENDPOINT } from 'services/apiEndpoints';
-import { registerUserThunk } from '../../redux/slices/registerUserSlice';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { registerUserThunk } from '../../store/slices/registerUserSlice';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import ErrorBox from 'components/Common/ErrorBox';
 import {
+  ENDPOINT,
   MIN_PHOTO_TO_UPLOAD_ON_ACCOUNT_CREATION,
   REGISTER_USER_DEFAULT_VALUES,
   UPLOAD_PHOTOS_VALIDATION_ERROR_MSG
@@ -52,7 +52,7 @@ const Register: FC = () => {
     const actionResult = await dispatch(registerUserThunk(data));
 
     if (registerUserThunk.fulfilled.match(actionResult)) {
-      navigate(LOGIN_ENDPOINT);
+      navigate(ENDPOINT.LOGIN);
       reset(); // Reset form fields
       setUploadedFiles([]); // Reset the uploadedFiles state
     }

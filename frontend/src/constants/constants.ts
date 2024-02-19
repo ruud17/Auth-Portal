@@ -11,3 +11,17 @@ export const UPLOAD_PHOTOS_VALIDATION_ERROR_MSG = {
   type: 'manual',
   message: 'You must select at least 4 photos.'
 };
+
+export const ENDPOINT = {
+  REGISTER: '/register',
+  LOGIN: '/login',
+  PROFILE: '/users/me'
+};
+
+export const ROUTE = {
+  HOME: '/',
+  REGISTER: '/register',
+  LOGIN: '/login',
+  PROFILE: '/profile',
+  WILD: '*'
+};
