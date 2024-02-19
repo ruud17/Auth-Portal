@@ -4,10 +4,14 @@ import { Container, Button, Form, Row, Col, Card } from 'react-bootstrap';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { IRegistrationFields } from 'interfaces/IRegistrationFields';
 import { LOGIN_ENDPOINT } from 'services/apiEndpoints';
-import { MIN_PHOTO_TO_UPLOAD_ON_ACCOUNT_CREATION, REGISTER_USER_DEFAULT_VALUES } from 'constants/constants';
-import { registerUserThunk } from '../../redux/registerUserSlice';
+import { registerUserThunk } from '../../redux/slices/registerUserSlice';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import ErrorBox from 'components/Common/ErrorBox';
+import {
+  MIN_PHOTO_TO_UPLOAD_ON_ACCOUNT_CREATION,
+  REGISTER_USER_DEFAULT_VALUES,
+  UPLOAD_PHOTOS_VALIDATION_ERROR_MSG
+} from 'constants/constants';
 
 const Register: FC = () => {
   const {
@@ -39,10 +43,7 @@ const Register: FC = () => {
 
   const onSubmit: SubmitHandler<IRegistrationFields> = async (data) => {
     if (uploadedFiles.length < MIN_PHOTO_TO_UPLOAD_ON_ACCOUNT_CREATION) {
-      setError('photos', {
-        type: 'manual',
-        message: 'You must select at least 4 photos.'
-      });
+      setError('photos', UPLOAD_PHOTOS_VALIDATION_ERROR_MSG);
       return;
     } else {
       clearErrors('photos');
@@ -63,6 +64,7 @@ const Register: FC = () => {
         <Card.Body>
           <h2 className='text-center mb-4'>Create an account</h2>
           <hr className='my-4 hr-grey' />
+
           <Form onSubmit={handleSubmit(onSubmit)}>
             <Row>
               <Col>
@@ -71,13 +73,13 @@ const Register: FC = () => {
                   <Controller
                     name='firstName'
                     control={control}
-                    rules={{ required: true, minLength: 2, maxLength: 25 }}
+                    // rules={{ required: true, minLength: 2, maxLength: 25 }}
                     render={({ field }) => <Form.Control type='text' isInvalid={!!errors.firstName} {...field} />}
                   />
                   <Form.Control.Feedback type='invalid'>
-                    {errors.firstName?.type === 'required' && 'First name is required'}
+                    {/* {errors.firstName?.type === 'required' && 'First name is required'}
                     {errors.firstName?.type === 'minLength' && 'First name must be at least 2 characters'}
-                    {errors.firstName?.type === 'maxLength' && 'First name must be less than 25 characters'}
+                    {errors.firstName?.type === 'maxLength' && 'First name must be less than 25 characters'} */}
                   </Form.Control.Feedback>
                 </Form.Group>
               </Col>
@@ -131,6 +133,7 @@ const Register: FC = () => {
                 </Form.Control.Feedback>
               </Form.Group>
             </Row>
+
             <Row>
               <Form.Group controlId='formPhotos' className='mb-3'>
                 <Form.Label>Photos (select at least 4)</Form.Label>
@@ -145,6 +148,7 @@ const Register: FC = () => {
             </Row>
 
             <Row className='mb-3'>{registrationError && <ErrorBox errorMsg={registrationError} />}</Row>
+
             <Row>
               <Button variant='primary' type='submit' className='w-100'>
                 Register

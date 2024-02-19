@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Alert } from 'react-bootstrap';
+import { Alert, Container } from 'react-bootstrap';
 
 interface ErrorBoxProps {
   errorMsg: string | string[];
@@ -13,14 +13,14 @@ const ErrorBox: FC<ErrorBoxProps> = ({ errorMsg }) => {
       ))}
     </ul>
   ) : (
-    <ul>
-      <li>{errorMsg}</li>
-    </ul>
+    <span>{errorMsg}</span>
   );
   return (
-    <Alert variant='danger' className='mt-4'>
-      {formattedErrorMsg}
-    </Alert>
+    <Container>
+      <Alert variant='danger' className='mt-4 small pb-0'>
+        {formattedErrorMsg}
+      </Alert>
+    </Container>
   );
 };
 

@@ -23,7 +23,7 @@ const UserPhotosCarousel: FC<UserPhotosCarouselProps> = ({ photos }) => {
         >
           {photos.map((photo, index) => (
             <div key={index}>
-              <img src={photo.url} alt={`${photo.name}`} style={{ width: '100%' }} />
+              <img src={photo.url} alt={`${photo.name}`} />
             </div>
           ))}
         </Carousel>

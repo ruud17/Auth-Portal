@@ -17,7 +17,6 @@ export const registerUserThunk = createAsyncThunk<void, IRegistrationFields, { r
     try {
       await registerNewUser(registerUserBody);
     } catch (error: any) {
-      console.log('ERROR IN THUNK', error);
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);
       } else {
