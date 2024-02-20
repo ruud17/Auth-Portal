@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Row, Button, Form, Card } from 'react-bootstrap';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
@@ -20,8 +20,13 @@ const Login: FC = () => {
   const dispatch = useAppDispatch();
   const loginError = useAppSelector((state) => state.login.error);
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const onSubmit: SubmitHandler<ILoginFields> = async (data) => {
+    console.log('clicked', data);
+    setIsSubmitting(true);
     const actionResult = await dispatch(loginThunk(data));
+    setIsSubmitting(false);
 
     if (loginThunk.fulfilled.match(actionResult)) {
       navigate(ROUTE.PROFILE);
@@ -33,7 +38,7 @@ const Login: FC = () => {
     <Container className='form-container'>
       <Card className='narrow-card p-5 shadow'>
         <Card.Body>
-          <h2 className='text-center mb-4'>Sign in</h2>
+          <h3 className='text-center mb-4'>Login to your account</h3>
           <hr className='my-4 hr-grey' />
 
           <Form onSubmit={handleSubmit(onSubmit)}>
@@ -58,7 +63,7 @@ const Login: FC = () => {
                 <Controller
                   name='password'
                   control={control}
-                  rules={{ required: true, pattern: /\d/ }}
+                  rules={{ required: true }}
                   render={({ field }) => <Form.Control type='password' isInvalid={!!errors.password} {...field} />}
                 />
                 <Form.Control.Feedback type='invalid'>
@@ -67,11 +72,11 @@ const Login: FC = () => {
               </Form.Group>
             </Row>
 
-            <Row className='mb-3'>{loginError && <ErrorBox errorMsg={loginError} />}</Row>
+            <Row>{loginError && <ErrorBox errorMsg={loginError} />}</Row>
 
             <Row className='mt-5'>
-              <Button variant='primary' type='submit' className='w-100'>
-                Sign in
+              <Button variant='primary' type='submit' className='w-100' disabled={isSubmitting}>
+                {isSubmitting ? 'Logging in...' : 'Login'}
               </Button>
             </Row>
           </Form>
