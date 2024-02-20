@@ -25,10 +25,12 @@ const Register: FC = () => {
     setValue
   } = useForm<IRegistrationFields>({ defaultValues: { ...REGISTER_USER_DEFAULT_VALUES } });
 
-  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const registrationError = useAppSelector((state) => state.registerUser.error);
+
+  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newFile = event.target.files;
@@ -50,14 +52,18 @@ const Register: FC = () => {
   };
 
   const onSubmit: SubmitHandler<IRegistrationFields> = async (data) => {
+    setIsSubmitting(true);
+
     if (uploadedFiles.length < MIN_PHOTO_TO_UPLOAD_ON_ACCOUNT_CREATION) {
       setError('photos', UPLOAD_PHOTOS_VALIDATION_ERROR_MSG);
+      setIsSubmitting(false);
       return;
     } else {
       clearErrors('photos');
     }
 
     const actionResult = await dispatch(registerUserThunk(data));
+    setIsSubmitting(false);
 
     if (registerUserThunk.fulfilled.match(actionResult)) {
       navigate(ROUTE.LOGIN);
@@ -70,7 +76,7 @@ const Register: FC = () => {
     <Container className='form-container'>
       <Card className='narrow-card p-5 shadow'>
         <Card.Body>
-          <h2 className='text-center mb-4'>Create an account</h2>
+          <h3 className='text-center mb-4'>Create an account</h3>
           <hr className='my-4 hr-grey' />
 
           <Form onSubmit={handleSubmit(onSubmit)}>
@@ -166,8 +172,8 @@ const Register: FC = () => {
             <Row className='mb-3'>{registrationError && <ErrorBox errorMsg={registrationError} />}</Row>
 
             <Row>
-              <Button variant='primary' type='submit' className='w-100'>
-                Register
+              <Button variant='primary' type='submit' className='w-100' disabled={isSubmitting}>
+                {isSubmitting ? 'Registering...' : 'Register'}
               </Button>
             </Row>
           </Form>
