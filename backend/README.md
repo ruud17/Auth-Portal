@@ -56,20 +56,3 @@ photos:/Users/name/Downloads/fourthImage.png
 Request Headers
 Authorization Bearer {access_token}
 ```
-
-## Running the app
-
-### Prerequiesents
-
-1. Install [Docker Desktop](https://www.docker.com/products/docker-desktop/)
-2. Install [Node.js](https://nodejs.org/en)
-
-**Create `.env` file and populate variables (example of env file can be found in the root `.env.example`)**
-
-```bash
-# start
-$ npm run docker:up
-
-# stop
-$ npm run docker:down
-```
