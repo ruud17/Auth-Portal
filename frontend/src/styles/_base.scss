@@ -13,3 +13,9 @@ body, html {
   border-top-width: 2px;
   border-style: solid;
 }
+
+i {
+  cursor: pointer;
+  font-size: 1em;
+  color: $red;
+}

@@ -1,4 +1,4 @@
-import { FC, ChangeEvent, useState } from 'react';
+import { FC, ChangeEvent, useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Container, Button, Form, Row, Col, Card } from 'react-bootstrap';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
@@ -39,6 +39,11 @@ const Register: FC = () => {
         clearErrors('photos');
       }
     }
+  };
+
+  const removeAddedFile = (indexToRemove: number): void => {
+    const filteredFiles = uploadedFiles.filter((_, index) => index !== indexToRemove);
+    setUploadedFiles(filteredFiles);
   };
 
   const onSubmit: SubmitHandler<IRegistrationFields> = async (data) => {
@@ -139,11 +144,13 @@ const Register: FC = () => {
                 <Form.Label>Photos (select at least 4)</Form.Label>
                 <Form.Control type='file' multiple isInvalid={!!errors.photos} onChange={handleFileChange} />
                 <Form.Control.Feedback type='invalid'>{errors.photos?.message}</Form.Control.Feedback>
-                <div className='mt-3'>
+                <ul className='mt-3'>
                   {uploadedFiles.map((file, index) => (
-                    <div key={index}>{file.name}</div>
+                    <li key={index}>
+                      {file.name} <i className='bi bi-x' onClick={() => removeAddedFile(index)} />
+                    </li>
                   ))}
-                </div>
+                </ul>
               </Form.Group>
             </Row>
 
