@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Carousel } from 'react-responsive-carousel';
-import { IPhoto } from '../../interfaces/IPhoto';
+import { IPhoto } from 'interfaces/IPhoto';
 
 interface UserPhotosCarouselProps {
   photos: IPhoto[];

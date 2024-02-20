@@ -1,11 +1,12 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
-import { getToken, setToken } from '../utils/localStorageHelper';
-import { IRegistrationFields } from '../interfaces/IRegistrationFields';
-import { ILoginFields } from '../interfaces/ILoginFields';
-import { IUser } from '../interfaces/IUser';
+import { IRegistrationFields } from 'interfaces/IRegistrationFields';
+import { ILoginFields } from 'interfaces/ILoginFields';
+import { IUser } from 'interfaces/IUser';
+import { getToken, setToken } from 'utils/localStorageHelper';
 import { ENDPOINT } from 'constants/constants';
 
 const API_BASE_URL: string | undefined = process.env.REACT_APP_API_BASE_URL;
+const EXCLUDED_ENDPOINTS = [ENDPOINT.REGISTER, ENDPOINT.LOGIN];
 
 if (!API_BASE_URL) {
   throw new Error('API base URL not provided');
@@ -14,8 +15,6 @@ if (!API_BASE_URL) {
 const apiService: AxiosInstance = axios.create({
   baseURL: API_BASE_URL
 });
-
-const EXCLUDED_ENDPOINTS = [ENDPOINT.REGISTER, ENDPOINT.LOGIN];
 
 // Add a request interceptor
 apiService.interceptors.request.use(
@@ -38,12 +37,11 @@ export const registerNewUser = async (userRegisterData: IRegistrationFields): Pr
     // Append user registration text fields to formData
     Object.entries(userRegisterData).forEach(([key, value]) => {
       if (key !== 'photos') {
-        // Exclude the photos key for now
         formData.append(key, value?.toString()); // Convert all values to string
       }
     });
 
-    // Append files (photos) to formData if present
+    // Append files (photos) to formData if
     if (userRegisterData.photos) {
       userRegisterData.photos.forEach((file, index) => {
         formData.append('photos', file, file.name);
@@ -51,12 +49,9 @@ export const registerNewUser = async (userRegisterData: IRegistrationFields): Pr
     }
 
     // API call with formData
-    const response: AxiosResponse<void> = await apiService.post(ENDPOINT.REGISTER, formData, {
-      headers: {
-        'Content-Type': undefined // This instructs Axios to automatically set the correct Content-Type
-      }
-    });
+    await apiService.post(ENDPOINT.REGISTER, formData);
   } catch (error: unknown) {
+    console.log(error);
     throw error;
   }
 };
@@ -66,7 +61,7 @@ export const login = async (loginData: ILoginFields): Promise<void> => {
     const response: AxiosResponse<{ access_token: string }> = await apiService.post(ENDPOINT.LOGIN, loginData);
     const { access_token } = response.data;
     setToken(access_token); // Store the token using localStorage helper
-  } catch (error) {
+  } catch (error: unknown) {
     console.log(error);
     throw error;
   }
@@ -76,7 +71,8 @@ export const getUserInfo = async (): Promise<IUser> => {
   try {
     const response: AxiosResponse<IUser> = await apiService.get(ENDPOINT.PROFILE);
     return response.data;
-  } catch (error) {
+  } catch (error: unknown) {
+    console.log(error);
     throw error;
   }
 };

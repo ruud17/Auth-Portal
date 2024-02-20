@@ -7,9 +7,9 @@ import { registerUserThunk } from '../../store/slices/registerUserSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import ErrorBox from 'components/Common/ErrorBox';
 import {
-  ENDPOINT,
   MIN_PHOTO_TO_UPLOAD_ON_ACCOUNT_CREATION,
   REGISTER_USER_DEFAULT_VALUES,
+  ROUTE,
   UPLOAD_PHOTOS_VALIDATION_ERROR_MSG
 } from 'constants/constants';
 
@@ -52,7 +52,7 @@ const Register: FC = () => {
     const actionResult = await dispatch(registerUserThunk(data));
 
     if (registerUserThunk.fulfilled.match(actionResult)) {
-      navigate(ENDPOINT.LOGIN);
+      navigate(ROUTE.LOGIN);
       reset(); // Reset form fields
       setUploadedFiles([]); // Reset the uploadedFiles state
     }

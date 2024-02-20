@@ -34,7 +34,7 @@ photos:/Users/name/Downloads/fourthImage.png
 
 - **Authentication**: Anonymous
 - **Specifications**:
-  - Log in an existing Client with email and password.
+  - Log in an existing User with email and password.
 
 ```http
 {
@@ -49,7 +49,7 @@ photos:/Users/name/Downloads/fourthImage.png
 
 - **Authentication**: Must be authenticated as a User.
 - **Specifications**:
-  - Retrieve "relevant" Client details.
+  - Retrieve "relevant" User details.
   - An authentication token is mandatory.
 
 ```http
@@ -58,6 +58,11 @@ Authorization Bearer {access_token}
 ```
 
 ## Running the app
+
+### Prerequiesents
+
+1. Install [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+2. Install [Node.js](https://nodejs.org/en)
 
 **Create `.env` file and populate variables (example of env file can be found in the root `.env.example`)**
 

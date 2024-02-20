@@ -1,13 +1,13 @@
 import { FC, useEffect } from 'react';
 import { Container } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import UserPhotosCarousel from './UserPhotosCarousel';
-import NavbarTop from '../Common/NavbarTop';
-import ErrorBox from 'components/Common/ErrorBox';
-import { ENDPOINT, ROUTE, UNAUTHORIZED_ERROR_CODE } from 'constants/constants';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { getUserProfleThunk } from '../../store/slices/userSlice';
+import { ROUTE, UNAUTHORIZED_ERROR_CODE } from 'constants/constants';
+import { useAppDispatch, useAppSelector } from 'store/hooks';
+import { getUserProfleThunk } from 'store/slices/userSlice';
 import { removeToken } from 'utils/localStorageHelper';
+import ErrorBox from 'components/Common/ErrorBox';
+import NavbarTop from 'components/Common/NavbarTop';
+import UserPhotosCarousel from './UserPhotosCarousel';
 
 const Profile: FC = () => {
   const navigate = useNavigate();
@@ -18,9 +18,8 @@ const Profile: FC = () => {
     dispatch(getUserProfleThunk()).then((actionResult) => {
       if (getUserProfleThunk.rejected.match(actionResult)) {
         if (actionResult.payload && typeof actionResult.payload !== 'string') {
-          // if token expired; go to login page
           if (actionResult.payload.statusCode === UNAUTHORIZED_ERROR_CODE) {
-            navigate(ROUTE.LOGIN);
+            navigate(ROUTE.LOGIN); // if token expired; go to login page
           }
         }
       }
@@ -49,11 +48,11 @@ const Profile: FC = () => {
               </Container>
 
               <Container className='carousel-container'>
-                <UserPhotosCarousel photos={data!.photos} />
+                <UserPhotosCarousel photos={data.photos} />
               </Container>
             </>
           ) : (
-            <Container>No data available.</Container>
+            <Container>No data available</Container>
           )}
         </>
       )}

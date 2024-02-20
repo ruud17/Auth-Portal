@@ -1,12 +1,12 @@
 import { FC } from 'react';
-import { ILoginFields } from '../../interfaces/ILoginFields';
+import { useNavigate } from 'react-router-dom';
 import { Container, Row, Button, Form, Card } from 'react-bootstrap';
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { loginThunk } from '../../store/slices/loginSlice';
-import ErrorBox from '../Common/ErrorBox';
+import { ILoginFields } from 'interfaces/ILoginFields';
+import { useAppDispatch, useAppSelector } from 'store/hooks';
+import { loginThunk } from 'store/slices/loginSlice';
 import { ROUTE } from 'constants/constants';
+import ErrorBox from '../Common/ErrorBox';
 
 const Login: FC = () => {
   const {
