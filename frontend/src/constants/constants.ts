@@ -12,6 +12,8 @@ export const UPLOAD_PHOTOS_VALIDATION_ERROR_MSG = {
   message: 'You must select at least 4 photos.'
 };
 
+export const VALID_PHOTO_FORMATS = '.jpg,.jpeg,.png,.gif,.webp,.svg,.tiff,.bmp,.heif,.heic,.avif';
+
 export const ENDPOINT = {
   REGISTER: '/register',
   LOGIN: '/login',

@@ -1,4 +1,4 @@
-import { FC, ChangeEvent, useState, useRef } from 'react';
+import { FC, ChangeEvent, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Container, Button, Form, Row, Col, Card } from 'react-bootstrap';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
@@ -10,7 +10,8 @@ import {
   MIN_PHOTO_TO_UPLOAD_ON_ACCOUNT_CREATION,
   REGISTER_USER_DEFAULT_VALUES,
   ROUTE,
-  UPLOAD_PHOTOS_VALIDATION_ERROR_MSG
+  UPLOAD_PHOTOS_VALIDATION_ERROR_MSG,
+  VALID_PHOTO_FORMATS
 } from 'constants/constants';
 
 const Register: FC = () => {
@@ -30,8 +31,10 @@ const Register: FC = () => {
   const registrationError = useAppSelector((state) => state.registerUser.error);
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      const allFiles = [...uploadedFiles, ...Array.from(event.target.files)];
+    const newFile = event.target.files;
+    if (newFile) {
+      const imageFiles = Array.from(newFile).filter((file) => file.type.startsWith('image/'));
+      const allFiles = [...uploadedFiles, ...imageFiles];
 
       setUploadedFiles(allFiles);
       setValue('photos', allFiles);
@@ -142,7 +145,13 @@ const Register: FC = () => {
             <Row>
               <Form.Group controlId='formPhotos' className='mb-3'>
                 <Form.Label>Photos (select at least 4)</Form.Label>
-                <Form.Control type='file' multiple isInvalid={!!errors.photos} onChange={handleFileChange} />
+                <Form.Control
+                  type='file'
+                  multiple
+                  isInvalid={!!errors.photos}
+                  accept={VALID_PHOTO_FORMATS}
+                  onChange={handleFileChange}
+                />
                 <Form.Control.Feedback type='invalid'>{errors.photos?.message}</Form.Control.Feedback>
                 <ul className='mt-3'>
                   {uploadedFiles.map((file, index) => (
