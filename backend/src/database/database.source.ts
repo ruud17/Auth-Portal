@@ -1,7 +1,7 @@
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { ConfigService } from '@nestjs/config';
 import { config } from 'dotenv';
-import { ENV_DEVELOPMENT } from 'common/constants/constants';
+import { ENV_DEVELOPMENT } from '../common/constants/constants';
 
 config();
 
